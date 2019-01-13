@@ -25,7 +25,7 @@ const RegistrationScene = new WizardScene(
         console.log(err)
       })
 
-    ctx.reply('Добро пожаловать, ' + name + '!')
+    ctx.reply('Welcome, ' + name + '!')
     return ctx.scene.enter('MainMenuScene')
   }
 )

@@ -18,6 +18,9 @@ const startScene = new WizardScene(
         } catch (e) {
             console.log(e + ' чекай старт, битый колбэк')
         }
+         if(tgId<0){
+            return ctx.scene.enter('RegistrationGroupScene')
+        }
         var res = await User.findAll({
             where: {
                 Telegram_id: tgId
@@ -25,13 +28,14 @@ const startScene = new WizardScene(
         }).catch((err) => {
             console.log(err)
         })
-
-        if (res.length === 0) {
+        if(res === undefined)
+            return ctx.scene.enter('start_scene')
+        if (res.length === 0 ) {
             ctx.reply('Hi, I can help you pass your message to your friends. ')
-            ctx.scene.enter('RegistrationScene')
+            return ctx.scene.enter('RegistrationScene')
 
         } else {
-            ctx.scene.enter('MainMenuScene')
+            return ctx.scene.enter('MainMenuScene')
 
         }
     }

@@ -7,30 +7,64 @@ var PermitTime = false
 /**
  * @return {boolean}
  */
-function GetPermitTime () {
-  return PermitTime
-}
-module.exports.GetPermitTime = GetPermitTime
+const User = require('../../database/models/User')
+const Speech = require('../../database/models/Speech')
 
-let job1 = schedule.scheduleJob('00 11 */3 * 1-7', async function () {
-
-  await Girl.update({
-    Active: 'Pending' },
-  { where: {
-    Active: { [Op.ne]: 'Pending' }
+// let job1 = schedule.scheduleJob('00 12 */3 * *', async function () {
+let job1 = schedule.scheduleJob('*/3 * * * *', async function () {
+  let res = await User.findAll(
+  {
+    include: [ 'Speeches' ],
+    where: {
+    Status: 'Pending'
   }
   })
     .catch((err) => {
       console.log(err)
     })
-  PermitTime = true
-  let res = await Girl.findAll()
-    .catch((err) => {
-      console.log(err)
-    })
-
   for (let i = 0; i < res.length; i++) {
-    helpers.sendProveMess(res[i].dataValues.User_id)
+    for (let j = 0; j < res[i].Speeches.length; j++) {
+      helpers.sendMess(res[i].Speeches[j].dataValues.Send_to, res[i].dataValues.Name, res[i].Speeches[j].dataValues.Text)
+      Speech.destroy({
+        where: {
+          id: res[i].Speeches[j].dataValues.id
+        }
+      })
+          .catch((err) => {
+            console.log(err)
+          })
+    }
+    await User.destroy(
+        {
+          where: {
+            id: res[i].dataValues.id
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
   }
-  console.log('Girls were asked to prove their activity')
-})
+
+
+  res = await User.findAll(
+      {
+        where: {
+          Status: 'Active'
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  for (let i = 0; i < res.length; i++) {
+      helpers.sendProveMess(res[i].dataValues.Telegram_id)
+    await User.update({Status: 'Pending'},
+        {
+          where: {
+            id: res[i].dataValues.id
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  })

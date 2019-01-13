@@ -1,6 +1,6 @@
 const sequelize = require('../lib/pgbaseConnector')
 const Sequelize = require('sequelize')
-const Speach = sequelize.define('Speach', {
+const Speech = sequelize.define('Speech', {
   User_id: {
     type: Sequelize.INTEGER
   },
@@ -10,6 +10,9 @@ const Speach = sequelize.define('Speach', {
   Send_to: {
     type: Sequelize.TEXT
   },
+    ChatTitle: {
+        type: Sequelize.TEXT
+    },
 })
 
-module.exports = Speach
+module.exports = Speech

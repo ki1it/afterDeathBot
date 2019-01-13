@@ -6,7 +6,10 @@ const session = require('telegraf/session')
 const startScene = require('./scenes/startScene')
 const RegistrationScene = require('./scenes/RegistrationScene')
 const MainMenuScene = require('./scenes/MainMenuScene')
-
+const AddMessageScene = require('./scenes/AddMessageScene')
+const ShowMessageScene = require('./scenes/ShowMessageScene')
+const DeleteMessageScene = require('./scenes/DeleteMessageScene')
+const RegistrationGroupScene = require('./scenes/RegistrationGroupScene')
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 const Stage = require('telegraf/stage')
@@ -14,7 +17,11 @@ const stage = new Stage(
   [
     startScene,
       RegistrationScene,
-      MainMenuScene
+      MainMenuScene,
+      DeleteMessageScene,
+      ShowMessageScene,
+      AddMessageScene,
+      RegistrationGroupScene
 
   ],
   {
