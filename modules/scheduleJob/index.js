@@ -10,8 +10,8 @@ var PermitTime = false
 const User = require('../../database/models/User')
 const Speech = require('../../database/models/Speech')
 
-// let job1 = schedule.scheduleJob('00 12 */3 * *', async function () {
-let job1 = schedule.scheduleJob('*/3 * * * *', async function () {
+let job1 = schedule.scheduleJob('00 12 */3 * *', async function () {
+// let job1 = schedule.scheduleJob('*/3 * * * *', async function () {
   let res = await User.findAll(
   {
     include: [ 'Speeches' ],
