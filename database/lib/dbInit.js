@@ -8,10 +8,10 @@ Speech.belongsTo(User, { foreignKey: 'User_id', targetKey: 'Telegram_id' })
 async function init () {
   // await Worker.sync({force:true});
   //
-  // await User.sync()
-  // await Speech.sync()
-  await User.sync({force:true})
-  await Speech.sync({force:true})
+  await User.sync()
+  await Speech.sync()
+  // await User.sync({force:true})
+  // await Speech.sync({force:true})
 
 }
 
